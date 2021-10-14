@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>userList</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item lines="none" class="ion-margin-top">
+    <ion-label>{{signalr}}</ion-label>
+    <ion-button slot="end" size="default" shape="round" color="success"
+     [routerLink]="['user-add']">
+      <ion-icon name="add-outline" color="light"></ion-icon>
+      เพิ่ม user
+    </ion-button>
+  </ion-item>
+
+  <ion-item lines="none">
+    <ion-searchbar [(ngModel)]="searchWord"></ion-searchbar>
+    <ion-button slot="end" color="success" shape="round" size="default" (click)="search()"> ค้นหา </ion-button>
+  </ion-item>
+
+  <ion-card [routerLink]="['user-info']" *ngFor="let item2 of riderList">
+      <ion-item button class="ion-text-center" *ngFor="let item of item2" id="123">
+        <ion-col size="7" class="ion-text-left">
+          <ion-text color="primary">
+            <p><b> {{item.name}} </b></p>
+          </ion-text>
+        </ion-col>
+        <ion-col size="5">
+          <ng-container>
+            <ion-text *ngIf="item.status == 'เปิดรับงาน'" color="success">
+              <p><b>เปิดรับงาน</b></p>
+            </ion-text>
+            <ion-text *ngIf="item.status == 'ปิดรับงาน'" color="danger">
+              <p><b>ปิดรับงาน</b></p>
+            </ion-text>
+          </ng-container>
+        </ion-col>
+      </ion-item>
+  </ion-card>
+
+  <ion-card *ngFor="let item2 of txLog">
+    <ion-item class="ion-text-center" *ngFor="let item of item2">
+      <ion-col size="7" class="ion-text-left">
+        <ion-text color="primary">
+          <p><b> {{item.name}} </b></p>
+        </ion-text>
+      </ion-col>
+      <ion-col size="5">
+        <ion-text color="primary">
+          <p><b> {{item.amount}} </b></p>
+        </ion-text>
+      </ion-col>
+    </ion-item>
+  </ion-card>
+
+  <ion-card class="ion-text-center" *ngIf="riderList == 0">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <ion-text class="ion-text-center">
+      <h5>
+        ไม่มีรายการ
+      </h5>
+    </ion-text>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+  </ion-card>
+
+</ion-content>

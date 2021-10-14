@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>ข้อมูล user</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <ion-item>
+      <ion-label text-wrap>
+        <h1>บันทึกรายงาน <small>
+            <ion-text color="success"> โดย
+              item.operator?.displayName (Operator)</ion-text>
+          </small></h1>
+        <h2>item.detail</h2>
+        <ion-item lines="none">
+          <ion-label>
+            <h2>อีเมล : xxx@gmail.com</h2>
+            <h2>เบอร์โทร : xxx3456789</h2>
+          </ion-label>
+        </ion-item>
+      </ion-label>
+    </ion-item>
+    <ion-row>
+      <ion-col size="7" class="padding">
+        <ion-item color="light">
+          <ion-label color="dark">เลือกสัญญา</ion-label>
+          <ion-select [(ngModel)]="contract2" (ionChange)="getContractDetail($event)">
+            <ion-select-option *ngFor="let item of contract" value="{{item._id}}">{{item.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="4" class="padding"></ion-col>
+    </ion-row>
+
+    <ion-item lines="full" *ngFor="let item of status">
+      <ion-grid>
+        <ion-row>
+          <ion-col size-xs="12" offset-md="8" size-md="4">
+            <ion-item>
+              <ion-icon *ngIf="item.name == 'Unresolved'" name="radio-button-on-outline" color="danger">
+              </ion-icon>
+              <ion-icon *ngIf="item.name == 'Resolved'" name="radio-button-on-outline" color="success">
+              </ion-icon>
+              <ion-select [(ngModel)]="item.name" (ionChange)="UpdateIssueStatus($event)">
+                <ion-select-option value="Resolved">แก้สำเร็จแล้ว</ion-select-option>
+                <ion-select-option value="Unresolved">ยังไม่ถูกแก้</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>
+        <h1>ข้อมูลผู้ใช้</h1>
+      </ion-label>
+      <ion-button (click)="sentConsenttoManager()" slot="end" color="dark" fill="outline" shape="round" size="default">
+        ขอ Manager </ion-button>
+    </ion-item>
+    <ion-card *ngFor="let item2 of txLog">
+      <ion-item class="ion-text-center" *ngFor="let item of item2">
+        <ion-col size="7" class="ion-text-left">
+          <ion-text color="primary">
+            <p><b> {{item.name}} </b></p>
+          </ion-text>
+        </ion-col>
+        <ion-col size="5">
+          <ion-text color="primary">
+            <p><b> {{item.amount}} </b></p>
+          </ion-text>
+        </ion-col>
+      </ion-item>
+    </ion-card>
+  </div>
+
+  <ion-item lines="none">
+    <ion-row class="boxStepProgressBar">
+      <div>
+        <li>
+          <div class="nodeSuccess"></div>
+          <!-- <ion-text color="medium">
+            <p>ค้นหาไรเดอร์</p>
+          </ion-text> -->
+          <p >ค้นหาไรเดอร์ ( 11:00 น.)</p>
+        </li>
+
+        <li>
+          <div [class]="statusReceived ? 'lineSuccess' : 'lineUnSuccess'"></div>
+        </li>
+        <li>
+          <div [class]="statusReceived ? 'nodeSuccess' : 'nodeUnSuccess'"></div>
+          <ion-text color="medium">
+            <p *ngIf="!statusReceived">ร้านรับออเดอร์</p>
+          </ion-text>
+          <p *ngIf="statusReceived">ร้านรับออเดอร์ ( 11:05  น.)</p>
+        </li>
+
+        <li>
+          <div [class]="statusShipping ? 'lineSuccess' : 'lineUnSuccess'"></div>
+        </li>
+        <li>
+          <div [class]="statusShipping ? 'nodeSuccess' : 'nodeUnSuccess'"></div>
+          <ion-text color="medium">
+            <p *ngIf="!statusShipping">กำลังจัดส่ง</p>
+          </ion-text>
+          <p *ngIf="statusShipping">กำลังจัดส่ง (dateShipping | date:'H:mm'  น.)</p>
+        </li>
+
+        <li>
+          <div [class]="statusDone ? 'lineSuccess' : 'lineUnSuccess'"></div>
+        </li>
+        <li>
+          <div [class]="statusDone ? 'nodeSuccess' : 'nodeUnSuccess'"></div>
+          <ion-text color="medium">
+            <p *ngIf="!statusDone">ถึงจุดส่งแล้ว</p>
+          </ion-text>
+          <p *ngIf="statusDone">ถึงจุดส่งแล้ว ( dateDone | date:'H:mm' น.)</p>
+        </li>
+      </div>
+    </ion-row>
+  </ion-item>
+</ion-content>
